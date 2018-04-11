@@ -1,9 +1,27 @@
 
 export class Play {
-    constructor(playNumber, board) {
-        this.board = board;
+    constructor(playNumber, board, player) {
         this.playNumber = playNumber;
-        this.placements = new Map(); // tile => [row, col]
+        this.board = board;
+        this.player = player;
+        // for convenience, get from placed tiles to squares
+        this.placements = new Map(); // tile => square
+    }
+    placeTile(tile, row, col) {
+        const square = this.board.getSquare(row, col);
+        if (square.tile !== null) { return false; }
+        this.board.placeTile(tile, row, col);
+        this.currentPlay.placements.set(tile, square);
+        this.player.rack.remove(tile);
+        return true;
+    }
+    removeTile(tile, row, col) {
+        const square = this.board.getSquare(row, col);
+        if (square.tile === null) { return false; }
+        this.board.removeTile(tile, row, col);
+        this.currentPlay.placements.delete(tile);
+        this.player.rack.add(tile);
+        return true;
     }
     get squares() {
         const compare = (sq1, sq2) => {
@@ -25,7 +43,7 @@ export class Play {
         })
         return sum;
     }
-    isValid() {
+    get isValid() {
         const playSquares = this.squares;
         // if this is first play, check that it crosses center
         if (this.playHistory.length === 0) {
@@ -51,7 +69,7 @@ export class Play {
         }
         // check if word abuts previous word
 
-
+        return true;
         
     }
 }

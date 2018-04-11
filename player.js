@@ -1,6 +1,7 @@
 
 export class Player {
-    constructor() {
+    constructor(user) {
+        this.name = user.name;
         this.rack = new Rack();
         this.score = 0;
     }
