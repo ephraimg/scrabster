@@ -1,5 +1,5 @@
 
-export class Play {
+class Play {
     constructor(playNumber, board, player) {
         this.playNumber = playNumber;
         this.board = board;
@@ -11,7 +11,7 @@ export class Play {
         const square = this.board.getSquare(row, col);
         if (square.tile !== null) { return false; }
         this.board.placeTile(tile, row, col);
-        this.currentPlay.placements.set(tile, square);
+        this.placements.set(tile, square);
         this.player.rack.remove(tile);
         return true;
     }
@@ -19,7 +19,7 @@ export class Play {
         const square = this.board.getSquare(row, col);
         if (square.tile === null) { return false; }
         this.board.removeTile(tile, row, col);
-        this.currentPlay.placements.delete(tile);
+        this.placements.delete(tile);
         this.player.rack.add(tile);
         return true;
     }
@@ -46,8 +46,8 @@ export class Play {
     get isValid() {
         const playSquares = this.squares;
         // if this is first play, check that it crosses center
-        if (this.playHistory.length === 0) {
-            if (!playSquares.some(sq => sq[0] === 8 && sq[1] === 8)) { return false; }
+        if (this.playNumber === 0) {
+            if (!playSquares.some(sq => sq.row === 7 && sq.col === 7)) { return false; }
         }
         // check if word played is in a straight line
         let rowAligned = true;
@@ -73,3 +73,5 @@ export class Play {
         
     }
 }
+
+// module.exports = Play;

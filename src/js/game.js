@@ -1,5 +1,15 @@
 
-export class Game {
+// const Player = require('./player');
+// const Board = require('./board');
+// const Play = require('./play');
+// const Bag = require('./bag');
+
+// import { Player } from './player';
+// import { Board } from './board';
+// import { Play } from './play';
+// import { Bag } from './bag';
+
+class Game {
     constructor(user1, user2, /* to continue: */ board, bag, playHistory, currentPlayer, currentPlay) {
         this.player1 = new Player(user1);
         this.player2 = new Player(user2);
@@ -7,7 +17,7 @@ export class Game {
         this.bag = bag || new Bag();
         this.playHistory = playHistory || [];
         this.currentPlayer = currentPlayer || this.player1;
-        this.currentPlay = currentPlay || new Play(this.playHistory.length, this.board);
+        this.currentPlay = currentPlay || new Play(this.playHistory.length, this.board, this.currentPlayer);
     }
     get otherPlayer() {
         return this.currentPlayer === this.player1
@@ -48,3 +58,5 @@ export class Game {
         }
     }
 }
+
+// module.exports = Game;

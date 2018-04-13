@@ -1,5 +1,9 @@
 
-export class Bag {
+// const Tile = require('./tile');
+
+// import { Tile } from './tile';
+
+class Bag {
     constructor() {
         this.tiles = [];
         const tileTypes = [
@@ -33,7 +37,7 @@ export class Bag {
         ];
         tileTypes.forEach(tileType => {
             for (let i = 0; i < tileType.count; i++) {
-                this.tiles.push(new Tile(tileType.letter, tileType.value));
+                this.tiles.push(new Tile(tileType.letter, tileType.points));
             }
         })
     }
@@ -49,3 +53,5 @@ export class Bag {
         return this.tiles.length;
     }
 }
+
+// module.exports = Bag;

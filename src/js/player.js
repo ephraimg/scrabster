@@ -1,5 +1,9 @@
 
-export class Player {
+// const Rack = require('./rack');
+
+// import { Rack } from './rack';
+
+class Player {
     constructor(user) {
         this.name = user.name;
         this.rack = new Rack();
@@ -9,12 +13,14 @@ export class Player {
         while (this.rack.count < 7) {
             this.rack.add(bag.provideTile());
         }
-        return rack;
+        return this.rack;
     }
     exchange(tile, bag) {
         this.rack.remove(tile);
         this.rack.add(bag.provideTile());
         bag.receiveTile(tile);
-        return rack;        
+        return this.rack;        
     }
 }
+
+// module.exports = Player;

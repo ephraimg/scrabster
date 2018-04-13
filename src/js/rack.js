@@ -1,5 +1,5 @@
 
-export class Rack {
+class Rack {
     constructor() {
         this.tiles = [];
     }
@@ -26,3 +26,5 @@ export class Rack {
         return this.tiles.length;
     }
 }
+
+// module.exports = Rack;
