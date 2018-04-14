@@ -1,9 +1,11 @@
 
 class Board {
     constructor() {
-        this.squares = Array(15).fill(null).map((row, ridx) => 
-            Array(15).fill(null).map((col, cidx) => ({ row: ridx, col: cidx, bonus: null, tile: null }))
-        );
+        this.squares = Array(15).fill(null).map((row, ridx) => {
+            return Array(15).fill(null).map((col, cidx) => {
+                return { row: ridx, col: cidx, bonus: null, tile: null };
+            });
+        });
     }
     getSquare(row, col) {
         return this.squares[row][col];

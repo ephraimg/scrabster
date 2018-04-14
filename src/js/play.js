@@ -4,14 +4,14 @@ class Play {
         this.playNumber = playNumber;
         this.board = board;
         this.player = player;
-        // for convenience, get from placed tiles to squares
-        this.placements = new Map(); // tile => square
+        this.placements = []; 
+        // remember square.tile give you tile
     }
     placeTile(tile, row, col) {
         const square = this.board.getSquare(row, col);
         if (square.tile !== null) { return false; }
         this.board.placeTile(tile, row, col);
-        this.placements.set(tile, square);
+        this.placements.push(square);
         this.player.rack.remove(tile);
         return true;
     }
@@ -19,22 +19,24 @@ class Play {
         const square = this.board.getSquare(row, col);
         if (square.tile === null) { return false; }
         this.board.removeTile(tile, row, col);
-        this.placements.delete(tile);
+        this.placements.splice(this.placements.indexOf(tile), 1);
         this.player.rack.add(tile);
         return true;
     }
     get squares() {
         const compare = (sq1, sq2) => {
-            if (sq1[0] === sq2[0]) { return sq1[1] - sq2[1]; }
-            return sq1[0] - sq2[0];
+            if (sq1.row === sq2.row) { return sq1.col - sq2.col; }
+            return sq1.row - sq2.row;
         }
-        return Array.from(this.placements.values()).sort(compare);
+        return Array.from(this.placements).sort(compare);
     }
     get words() {
-        const wordsPlayed = new Set();
-        // check all rows and cols with placements?
-        // words will be arrays of tiles?
-        return wordsPlayed;
+        return getAllWords(this);
+    }
+    get plainWords() {
+        return getAllWords(this).map(w => {
+            return w.map(sq => sq.tile.letter).join('');
+        });
     }
     get score() {
         let sum = 0;

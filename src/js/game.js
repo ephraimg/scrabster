@@ -18,6 +18,8 @@ class Game {
         this.playHistory = playHistory || [];
         this.currentPlayer = currentPlayer || this.player1;
         this.currentPlay = currentPlay || new Play(this.playHistory.length, this.board, this.currentPlayer);
+        this.player1.fillRack(this.bag);
+        this.player2.fillRack(this.bag);
     }
     get otherPlayer() {
         return this.currentPlayer === this.player1
@@ -37,10 +39,14 @@ class Game {
     // }
     submitPlay() {
         if (this.currentPlay.isValid) {
+            this.currentPlayer.score += this.currentPlay.score;
+            this.currentPlayer.fillRack(this.bag);
             this.playHistory.push(this.currentPlay);
             if (!this.gameOver) {
                 this.nextPlay();
             }
+        } else {
+            console.log('Error: Invalid play');
         }
     }
     nextPlay() {
