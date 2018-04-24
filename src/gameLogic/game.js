@@ -1,15 +1,10 @@
 
-// const Player = require('./player');
-// const Board = require('./board');
-// const Play = require('./play');
-// const Bag = require('./bag');
+import { Player } from './player';
+import { Board } from './board';
+import { Play } from './play';
+import { Bag } from './bag';
 
-// import { Player } from './player';
-// import { Board } from './board';
-// import { Play } from './play';
-// import { Bag } from './bag';
-
-class Game {
+export class Game {
     constructor(user1, user2, /* to continue: */ board, bag, playHistory, currentPlayer, currentPlay) {
         this.player1 = new Player(user1);
         this.player2 = new Player(user2);
@@ -45,9 +40,9 @@ class Game {
             if (!this.gameOver) {
                 this.nextPlay();
             }
-        } else {
-            console.log('Error: Invalid play');
-        }
+        } // else {
+        //     console.log('Error: Invalid play');
+        // }
     }
     nextPlay() {
         this.currentPlayer = this.otherPlayer;
@@ -64,5 +59,3 @@ class Game {
         }
     }
 }
-
-// module.exports = Game;

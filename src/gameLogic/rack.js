@@ -1,5 +1,5 @@
 
-class Rack {
+export class Rack {
     constructor() {
         this.tiles = [];
     }
@@ -15,7 +15,11 @@ class Rack {
         }
     }
     remove(tile) {
-        this.tiles.splice(this.tiles.indexOf(tile), 1);
+        this.tiles.forEach((el, idx) => {
+            if (el.id === tile.id) {
+                this.tiles.splice(idx, 1);
+            }
+        })
         return this.tiles;
     }
     add(tile) {
@@ -26,5 +30,3 @@ class Rack {
         return this.tiles.length;
     }
 }
-
-// module.exports = Rack;

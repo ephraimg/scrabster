@@ -7,13 +7,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const paths = {
   DIST: path.resolve(__dirname, 'dist'),
   SRC: path.resolve(__dirname, 'src'),
-  JS: path.resolve(__dirname, 'src/js')
+  APP: path.resolve(__dirname, 'src/app'),
 };
 
 // Webpack configuration
 module.exports = {
   mode: 'development',
-  entry: path.join(paths.JS, 'index.js'),
+  entry: path.join(paths.APP, 'app.jsx'),
   output: {
     path: paths.DIST,
     filename: 'bundle.js'

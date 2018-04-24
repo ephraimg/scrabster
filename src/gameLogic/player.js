@@ -1,9 +1,7 @@
 
-// const Rack = require('./rack');
+import { Rack } from './rack';
 
-// import { Rack } from './rack';
-
-class Player {
+export class Player {
     constructor(user) {
         this.name = user.name;
         this.rack = new Rack();
@@ -22,5 +20,3 @@ class Player {
         return this.rack;        
     }
 }
-
-// module.exports = Player;
