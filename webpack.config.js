@@ -5,9 +5,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const paths = {
-  DIST: path.resolve(__dirname, 'dist'),
-  SRC: path.resolve(__dirname, 'src'),
-  APP: path.resolve(__dirname, 'src/app'),
+  DIST: path.resolve(__dirname, 'client/dist'),
+  SRC: path.resolve(__dirname, 'client/src'),
+  APP: path.resolve(__dirname, 'client/src/app'),
 };
 
 // Webpack configuration
@@ -18,6 +18,7 @@ module.exports = {
     path: paths.DIST,
     filename: 'bundle.js'
   },
+  watch: true,
   plugins: [
     new HtmlWebpackPlugin({
         template: path.join(paths.SRC, 'index.html')
@@ -36,5 +37,8 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+  },
+  devServer: {
+    historyApiFallback: true,
   }
 };

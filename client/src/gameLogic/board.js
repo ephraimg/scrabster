@@ -32,12 +32,11 @@ for (let i = 0; i < 8; i++) {
 // fix the center
 bonuses[7][7] = 'star';
 
-
 export class Board {
-    constructor() {
-        this.squares = Array(15).fill(null).map((row, ridx) => {
-            return Array(15).fill(null).map((col, cidx) => {
-                return new Square(ridx, cidx, bonuses[ridx][cidx]);
+    constructor(squares) {
+        this.squares = squares || Array(15).fill(null).map((wholeRow, row) => {
+            return Array(15).fill(null).map((sqInRow, col) => {
+                return { row, col, bonus: bonuses[row][col], tile: null };
             });
         });
     }
@@ -57,14 +56,5 @@ export class Board {
         })
         console.log('\nCurrent board:\n');
         console.log(disp.join('\n\n'));
-    }
-}
-
-export class Square {
-    constructor(row, col, bonus, tile) {
-        this.row = row;
-        this.col = col;
-        this.bonus = bonus;
-        this.tile = tile;
     }
 }

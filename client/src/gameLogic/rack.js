@@ -1,7 +1,7 @@
 
 export class Rack {
-    constructor() {
-        this.tiles = [];
+    constructor(tiles) {
+        this.tiles = tiles || [];
     }
     shuffle() {
         let i = 0;

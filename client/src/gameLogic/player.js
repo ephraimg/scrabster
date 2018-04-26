@@ -2,10 +2,11 @@
 import { Rack } from './rack';
 
 export class Player {
-    constructor(user) {
-        this.name = user.name;
-        this.rack = new Rack();
-        this.score = 0;
+    constructor(player) {
+        this.id = player.id;
+        this.name = player.name;
+        this.rack = new Rack(player.rack.tiles);
+        this.score = player.score;
     }
     fillRack(bag) {
         while (this.rack.count < 7) {

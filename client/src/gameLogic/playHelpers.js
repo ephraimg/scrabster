@@ -41,12 +41,13 @@ export const isContiguous = function(play) {
 }
 
 const getWordOrientation = function(placements) {
+    if (placements.length === 0) { return null; }
     // get all unique rows and columns of the placements
     const rows = new Set(placements.map(p => p.row));
     const cols = new Set(placements.map(p => p.col));
     if (rows.size > 1) { return 'vertical'; }
     if (cols.size > 1) { return 'horizontal'; }
-    if (cols.size === 1 && rows.size === 1) { return 'single'; }
+    if (rows.size < 2 && cols.size < 2) { return 'single'; }
 };
 
 const getAllInRow = function(square, board) {
@@ -78,12 +79,15 @@ const getAllInCol = function(square, board) {
 };
 
 const getMainWord = function(placements, board, orient) {
+    if (!orient) { return null; }
     if (orient === 'vertical') {
         return getAllInCol(placements[0], board);
     } else if (orient === 'horizontal') {
         return getAllInRow(placements[0], board);
     } else if (orient === 'single') {
         return [placements[0]];
+    } else {
+        throw "Orientation cannot be computed"; 
     }
 };
 
@@ -150,6 +154,7 @@ export const isConnected = function(play) {
 export const getAllWords = function(play) {
     const orient = getWordOrientation(play.placements);
     const mainWord = getMainWord(play.placements, play.board, orient);
+    if (!mainWord || !mainWord.length) { return []; }
     // console.log('Main word: ', '"' + mainWord.map(sq => sq.tile.letter).join('') + '"');
     const adjWords = getAdjWords(play.placements, play.board, orient);
     return mainWord.length < 2 && play.playNumber > 0 ? adjWords : [mainWord, ...adjWords];

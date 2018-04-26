@@ -17,11 +17,15 @@ const randomRotation = () => ({
 export class UITile extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { rotated: {} }
+    }
+    componentDidMount() {
+        this.setState({ rotated: randomRotation() }); 
     }
     render() {
         let selectClass = this.props.selectedTile === this.props.tile ? ' selected' : '';
         let logoClass = this.props.inLogo === 'true' ? ' logo-tile' : '';
-        let style = this.props.inLogo === 'true' ? randomRotation() : null;
+        let style = this.props.inLogo === 'true' ? this.state.rotated : null;
         return (
             <div className={'ui-tile noselect' + selectClass + logoClass}
                 style={style} 

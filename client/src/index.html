@@ -55,20 +55,62 @@
             border-collapse: collapse;
             border-spacing: 0;
         }
-
-
-
         html {
+            font-family: Arial, sans-serif;
             font-size: 18px;
+            font-color: black;
+            font-weight: 600;
+            text-decoration: none;
         }
         body {
             background-color: lightgray;
-            font-family: Arial, sans-serif;
-            font-weight: 600;
             margin: 0;
         }
+        button {
+            font-size: 0.75rem;
+            font-family: Verdana, Geneva, sans-serif;
+            font-weight: 400;
+            height: 1.75rem;
+            width: 7rem;
+            padding: 0.25rem;
+            margin: .25rem;
+            border-radius: 0.15rem;
+            border: 2px solid lightGray;
+        }
+        a {
+            color: black;
+            font-weight: 600;
+            text-decoration: none;            
+        }
+        a:hover {
+            color: green;
+            font-weight: 800;
+        }
+        a:active {
+            color: darkGreen;
+            font-weight: 600;
+        }
+        a:visited {
+            color: black;
+        }
         #app {
+        }
+        #routes-view {
             width: 100vw;
+            min-height: 100vh;
+        }
+        .login {
+            height: 2em;
+            width: 6em;
+            box-sizing: border-box;
+            padding: 0.5em;
+            text-align: center;
+            margin: auto;
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 3px;
         }
         .footer {
             box-sizing: border-box;
@@ -252,17 +294,6 @@
             -webkit-transform: translate(-50%, -50%); /* Safari */
             transform: translate(-50%, -50%);
         }
-        button {
-            font-size: 0.75rem;
-            font-family: Verdana, Geneva, sans-serif;
-            font-weight: 400;
-            height: 1.75rem;
-            width: 7rem;
-            padding: 0.25rem;
-            margin: .25rem;
-            border-radius: 0.15rem;
-            border: 2px solid lightGray;
-        }
         .submit {
          
         }
@@ -299,7 +330,6 @@
             transform: translate(-50%, 0%);
         }
         .ctr-vert {
-            position: relative;
             top: 50%;
             -ms-transform: translate(0%, -50%); /* IE 9 */
             -webkit-transform: translate(0%, -50%); /* Safari */
