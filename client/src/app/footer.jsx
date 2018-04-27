@@ -1,36 +1,75 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { UIRack } from './rack';
 
-export const Footer = props =>
-    <div className="footer"
-        onClick={props.selectSquareOrRack}>
-        <div className="banner-info">
-            <div>
-                Turn {props.game.currentPlay.playNumber + 1}: {props.game.currentPlayer.name}
-                <br/> Score: {props.game.currentPlay.score}
+export const Footer = props => {
+
+    let buttonRow;
+    let userRack;
+
+    // hide action buttons (except shuffle) if not user's turn
+    if (props.game.gameOver) {
+        buttonRow = (
+            <div className="ctr-horiz"><br/><br/>
+                Game Over!
+            </div>);
+    } else if (props.user.id === props.game.currentPlayer.id) {
+        userRack = props.game.currentPlayer.rack;
+        buttonRow = (
+            <div className="ctr-horiz">
+                <button onClick={props.handleShuffleClick}>
+                    Shuffle Tiles
+                </button>
+                <button onClick={props.handleExchangeClick}>
+                    Exchange Tile
+                </button>
+                <button onClick={props.handleClearClick}>
+                    Clear Play
+                </button>
+                <button className="submit" onClick={props.handleSubmitClick}>
+                    Submit Play
+                </button>
+            </div>);
+    } else {
+        userRack = props.game.otherPlayer.rack;
+        buttonRow = (
+            <div className="ctr-horiz">
+                <button onClick={props.handleShuffleClick}>
+                    Shuffle Tiles
+                </button>
+                <span style={{"margin-left": "1.5em", "color": "white", "font-size": "1rem"}}>
+                    Waiting for your turn...
+                </span>
+            </div>);
+    }
+
+    // combine above results with usual bottom info bar
+    return (
+        <div>
+            <div className="footer" onClick={props.selectSquareOrRack}>
+                <UIRack rack={userRack}
+                    selectTile={props.selectTile}
+                    selectedTile={props.selectedTile}>
+                </UIRack><br/>
+                {buttonRow}
             </div>
-            <hr />
-            <div> {props.game.player1.name}: {props.game.player1.score} </div>
-            <div> {props.game.player2.name}: {props.game.player2.score} </div>
-        </div>  
-        <UIRack rack={props.game.currentPlayer.rack}
-            selectTile={props.selectTile}
-            selectedTile={props.selectedTile}>
-        </UIRack>
-        <br/>
-        <div className="ctr-horiz">
-            <button onClick={props.handleShuffleClick}>
-                Shuffle Tiles
-            </button>
-            <button onClick={props.handleExchangeClick}>
-                Exchange Tile
-            </button>
-            <button onClick={props.handleClearClick}>
-                Clear Play
-            </button>
-            <button className="submit" onClick={props.handleSubmitClick}>
-                Submit Play
-            </button>
-        </div>
-    </div>;
+            <div className="info-bar">
+                <div className="banner-info left-mid">
+                    <div style={{"float": "left", "margin-right": "1em"}}>
+                        Turn {props.game.currentPlay.playNumber + 1}: {props.game.currentPlayer.getName()}
+                        <br/> Pending score: {props.game.currentPlay.score}
+                    </div>
+                    <div style={{"float": "left", "margin-left": "1em"}}>
+                        {props.game.player1.getName()}'s total: {props.game.player1.score}
+                        <br/>{props.game.player2.getName()}'s total: {props.game.player2.score}
+                    </div>
+                </div>
+                <div className="banner-info right-mid">
+                    <Link to="/home"><button> Home </button></Link>
+                </div>
+            </div>
+        </div>);
+};
+

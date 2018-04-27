@@ -6,8 +6,17 @@ export class Player {
     constructor(player) {
         this.id = player.id;
         this.name = player.name;
-        this.rack = new Rack(player.rack.tiles);
-        this.score = player.score;
+        this.rack = player.rack 
+            ? new Rack(player.rack.tiles)
+            : new Rack();
+        this.score = player.score || 0;
+    }
+
+    getName() {
+        const name = this.name.givenName
+            ? this.name.givenName
+            : this.displayName.split(' ')[0];
+        return name[0].toUpperCase() + name.slice(1);
     }
 
     fillRack(bag) {

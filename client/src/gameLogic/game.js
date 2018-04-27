@@ -1,5 +1,6 @@
 
 import uuidv4 from 'uuid/v4';
+import axios from 'axios';
 import { cloneDeep } from 'lodash';
 
 import { Player } from './player';
@@ -34,7 +35,7 @@ export class Game {
     }
     
     get gameOver() {
-        return this.currentPlayer.rack.count + this.bag.count < 1
+        return this.otherPlayer.rack.count + this.bag.count < 1
     }
     
     exchangeTile(tile) {
@@ -71,6 +72,7 @@ export class Game {
             console.log(`${player.name}'s play: 0 (tile exchange)`);
             this.playHistory.push({ player: player.id, score: 0, ...rest }); 
             // now currentPlayer has changed!
+            this.savePlayToDB();
             this.nextPlay();           
         }
         if (this.currentPlay.placements.length > 0 && this.currentPlay.isValid) {
@@ -81,9 +83,24 @@ export class Game {
             console.log(`${player.name}'s play: ${playScore} for ${plainWords}`);
             this.playHistory.push({ player: player.id, score: playScore, ...rest });
             // now currentPlayer has changed!
+            this.savePlayToDB();
             this.gameOver ? this.handleGameOver() : this.nextPlay(); 
         }
-        // save to db
+
+    }
+
+    savePlayToDB() {
+        axios.post('/games', {            
+            id: this.id,
+            player1: this.player1, 
+            player2: this.player2,
+            squares: this.board.squares,
+            tiles: this.bag.tiles,
+            playHistory: this.playHistory
+        })
+        .then(response => {
+            console.log('Received axios response: ', response);
+        });
     }
     
     nextPlay() {
@@ -93,10 +110,13 @@ export class Game {
     
     handleGameOver() {
         console.log('Game over!');
-        const pointsLeft = otherPlayer.rack.tiles.reduce((a, t) => a + t.points, 0);
-        otherPlayer.score -= pointsLeft;
-        currentPlayer.score += pointsLeft;
-        console.log(`Scores: ${currentPlayer.name} ${currentPlayer.score}, ${otherPlayer.name} ${otherPlayer.score}`)
+        const pointsLeft = this.otherPlayer.rack.tiles.reduce((a, t) => a + t.points, 0);
+        this.otherPlayer.score -= pointsLeft;
+        this.currentPlayer.score += pointsLeft;
+        console.log(
+            `Scores: ${this.currentPlayer.name} ${this.currentPlayer.score}, 
+            ${this.otherPlayer.name} ${this.otherPlayer.score}`
+        );
     }
 
 }

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import { Player } from '../gameLogic/Player';
 import { Login } from './login';
 import { Home } from './home';
 import { Banner } from './banner';
@@ -16,22 +17,28 @@ class App extends React.Component {
         super(props);
         this.state = {
             user: {},
-            selectedGameId: ''
+            selectedGameId: '',
+            selectedOpponentId: null
         };
         this.handleGameSelect = this.handleGameSelect.bind(this);
+        this.handleOpponentSelect = this.handleOpponentSelect.bind(this);
     }
 
     componentDidMount() {
         axios.get('/user')
             .then(({ data }) => {
-                console.log('Received user data: ', data);
-                this.setState({ user: data });
+                this.setState({ user: new Player(data), selectedOpponentId: data.id });
             });
     }
 
     handleGameSelect(e) {
-        console.log('selected a game id: ', e.target.value);
+        // console.log('selected a game id: ', e.target.value);
         this.setState({ selectedGameId: e.target.value });
+    }
+
+    handleOpponentSelect(e) {
+        // console.log('selected an opponent id: ', e.target.value);
+        this.setState({ selectedOpponentId: e.target.value });
     }
 
     render() { return (
@@ -48,7 +55,9 @@ class App extends React.Component {
                 customProps={({
                     user: this.state.user,
                     selectedGameId: this.state.selectedGameId,
-                    handleGameSelect: this.handleGameSelect
+                    handleGameSelect: this.handleGameSelect,
+                    selectedOpponentId: this.state.selectedOpponentId,
+                    handleOpponentSelect: this.handleOpponentSelect
                 })}
                 component={Home} 
             />
@@ -56,7 +65,9 @@ class App extends React.Component {
                 customProps={({
                     user: this.state.user,
                     selectedGameId: this.state.selectedGameId,
-                    handleGameSelect: this.handleGameSelect
+                    handleGameSelect: this.handleGameSelect,
+                    selectedOpponentId: this.state.selectedOpponentId,
+                    handleOpponentSelect: this.handleOpponentSelect
                 })}
                 component={GameView} 
             />

@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { Home } from './home';
 
 export const PrivateRoute = ({ component: Component, customProps, ...rest }) =>
-    <Route {...rest} render={ props => customProps.user && customProps.user.name 
+    <Route {...rest} render={ props => customProps.user && customProps.user.id 
         /* checked for logged in user */
         ? <Component {...{...props, ...customProps}} />
         : <Redirect to={{ pathname: "/", state: { from: props.location }}} />

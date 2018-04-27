@@ -1,7 +1,8 @@
 
 require('dotenv').config();
-const database = require('../db/helpers.js');
+const database = require('../db/index.js');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const whiteList = require('./whiteList.js');
 
 const configAuth = function(app, passport) {
 
@@ -11,10 +12,9 @@ const configAuth = function(app, passport) {
     done(null, user.id);
   });
   passport.deserializeUser(function(googleId, done) {
-    database.getUsers(googleId, function(err, user) {
-      if (user[0]) { return done(null, user[0]); }
-      else if (err) { return done(err, null); }
-    });
+    database.fakeGetUserById(googleId)
+      .then(user => done(null, user))
+      .catch(err => done(err, null));
   });
 
   // configure passport to use Google OAuth2
@@ -35,22 +35,26 @@ const configAuth = function(app, passport) {
     * @param {done} function
   */
   function verifyCallback(accessToken, refreshToken, profile, done) {
-    console.log('profile.id: ', profile.id);
     // check that user is pre-approved (in our whitelist)
-    // database.checkWhitelist(profile.id, function(err, users) {
-    //   if (users.length > 0) { 
-    //     console.log('User in whitelist: ', user);
-    //     // save full profile (this might be user's first login)
-        return database.saveUser(profile, (err, result) => {
-          if (result) { return done(null, result); } 
-          else if (err) { return done(err, null); }
-        });
-    //   } else if (err) { 
-    //     console.log('User NOT in whitelist: ', err);        
-    //     return done(err, null); 
-    //   }
-    // });
-    // return done(null, profile);
+      console.log('profile.id: ', profile.id);
+    if (!whiteList[profile.id]) { 
+      console.log('User not on whitelist!')
+      return done(null, false); 
+    }
+    return database.fakeGetUserById(profile.id)
+      .then(user => {
+        console.log('Got user from db? ', user);
+        if (user) { return done(null, user); } 
+        return database.fakeSaveUser(profile)
+          .then(user => {
+            console.log('Saved user, will now return: ', user);
+            return done(null, user)
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        return done(err, null);
+      });
   }
 
   // using Google auth requires these two routes
