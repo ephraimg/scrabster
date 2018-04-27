@@ -35,22 +35,22 @@ const configAuth = function(app, passport) {
     * @param {done} function
   */
   function verifyCallback(accessToken, refreshToken, profile, done) {
-    console.log('profile.id: ', profile.id);
+    console.log('In verifyCallback, profile.id is: ', profile.id);
     // check that user is pre-approved (in our whitelist)
-    // database.checkWhitelist(profile.id, function(err, users) {
-    //   if (users.length > 0) { 
-    //     console.log('User in whitelist: ', user);
-    //     // save full profile (this might be user's first login)
-        return database.saveUser(profile, (err, result) => {
-          if (result) { return done(null, result); } 
-          else if (err) { return done(err, null); }
+    database.checkWhitelist(profile.id, function(err, user) {
+        if (err) { console.log(err); }
+        if (!user) { 
+          console.log('User not in whitelist!');
+          // In Passport, this return indicates invalid credentials 
+          return done(null, false);
+        }
+        console.log('User in whitelist!');
+        // save full profile (this might be user's first login)
+        database.saveUser(profile, (err, result) => {
+          if (err) { return done(err, null); }
+          else { return done(null, result); } 
         });
-    //   } else if (err) { 
-    //     console.log('User NOT in whitelist: ', err);        
-    //     return done(err, null); 
-    //   }
-    // });
-    // return done(null, profile);
+    });
   }
 
   // using Google auth requires these two routes

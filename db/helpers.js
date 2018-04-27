@@ -14,17 +14,18 @@ connectToMongo((err, connection) => {
 const getUsers = (googleId, callback) => {
   let options = {};
   if (googleId !== undefined) { options.id = googleId; }  
-  console.log('\n\ngoogleId supplied? ', googleId);
+  // console.log('\n\ngoogleId supplied? ', googleId);
   db.collection('users').find(options)
     .toArray((err, result) => {
-      console.log('got result from getUsers? ', result);
+      // console.log('got result from getUsers? ', result);
       callback(err, result);
     });
 };
 
 const saveUser = (user, callback) => {
   console.log('saveUser. user: ', user);
-  db.collection('users').update({id: user.id}, user, {upsert: true},
+  // Note: Without {$set: {}}, whole document gets overwritten
+  db.collection('users').update({id: user.id}, {$set: user}, {upsert: true},
     (err, result) => callback(err, user)
   );
 };

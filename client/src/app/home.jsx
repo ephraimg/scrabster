@@ -14,26 +14,45 @@ export class Home extends React.Component {
         };
     }
 
+    dateFromObjectId(objectId) {
+        return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+    }
+
+    // Useful because objects from db don't have Player methods!
+    getObjName(userObj) {
+        return this.props.user.getName.call(userObj);
+    }
+
+    getOtherName(game) {
+        return this.props.user.id === game.player1.id
+            ? this.getObjName(game.player2) : this.getObjName(game.player1);
+    }
+
+    cleanNames(users) {
+        // alphabetize users by name
+        users.sort((a, b) => this.getObjName(a) < this.getObjName(b));
+        // exclude this.user, since list will already have user's profile
+        return users.filter(user => user.id !== this.props.user.id);
+    }
+
     componentDidMount() {
         axios.get('/games')
             .then(({ data }) => {
-                const dateFromObjectId = objectId =>
-                    new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
                 const gameOptions = [<option value=""> New game </option>]
-                    .concat(data.map(game =>
+                    .concat(data.reverse().map(game =>
                         <option value={game.id}> 
-                            Game from {dateFromObjectId(game._id).toString()} 
+                            You vs. {this.getOtherName(game)}, 
+                            started {this.dateFromObjectId(game._id).toLocaleString("en-us")} 
                         </option>));
                 this.setState({ games: data, gameOptions });
             });
         axios.get('/users')
             .then(({ data }) => {
                 const opponentOptions = [<option value={this.props.user.id}>{this.props.user.getName()}</option>]
-                    .concat(data.filter(opp => opp.id !== this.props.user.id)
-                        .map(opponent =>
-                            <option value={opponent.id}> 
-                                {opponent.displayName} 
-                            </option>));
+                    .concat(this.cleanNames(data).map(opponent =>
+                        <option value={opponent.id}> 
+                            {opponent.displayName} 
+                        </option>));
                 this.setState({ 
                     opponents: data, 
                     opponentOptions
