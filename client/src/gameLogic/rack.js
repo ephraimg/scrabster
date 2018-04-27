@@ -1,8 +1,10 @@
 
 export class Rack {
+
     constructor(tiles) {
         this.tiles = tiles || [];
     }
+
     shuffle() {
         let i = 0;
         let j = 0;
@@ -14,19 +16,19 @@ export class Rack {
             this.tiles[j] = temp;
         }
     }
+
     remove(tile) {
-        this.tiles.forEach((el, idx) => {
-            if (el.id === tile.id) {
-                this.tiles.splice(idx, 1);
-            }
-        })
+        this.tiles = this.tiles.filter(el => el.id !== tile.id);
         return this.tiles;
     }
+
     add(tile) {
         this.tiles.push(tile);
         return this.tiles;
     }
+
     get count() {
         return this.tiles.length;
     }
+
 }

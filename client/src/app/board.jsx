@@ -2,26 +2,18 @@
 import React from 'react';
 import { UISquare } from './square';
 
-export class UIBoard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <div className="ui-board">
-            { Array(15).fill(null).map((row, i) => 
-                <div className="ui-row" key={`row-${i}`}>
+export const UIBoard = props =>
+    <div className="ui-board">
+        { Array(15).fill(null).map((row, i) => 
+            <div className="ui-row" key={`row-${i}`}>
                 { Array(15).fill(null).map((sq, j) => 
                     <UISquare key={`square-${i}-${j}`}
                         id={`square-${i}-${j}`} 
-                        square={this.props.board.getSquare(i, j)}
-                        selectSquareOrRack={this.props.selectSquareOrRack}
-                        selectTile={this.props.selectTile}
-                        selectedTile={this.props.selectedTile}/>)
-                }
-                </div>) 
-            }
+                        square={props.board.getSquare(i, j)}
+                        selectSquareOrRack={props.selectSquareOrRack}
+                        selectTile={props.selectTile}
+                        selectedTile={props.selectedTile} />
+                )}
             </div>
-        )
-    }
-}
+        )}
+    </div>;

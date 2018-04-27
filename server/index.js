@@ -25,8 +25,6 @@ configAuth(app, passport);
 app.get('/user', (req, res) => {
     let user = {};
     // If user is logged in, send the user info back to the client
-    console.log('req.user: ', req.user);
-    console.log('Authed? ', req.isAuthenticated());
     if (req.isAuthenticated()) { user = req.user; }
     res.send(user);
 });

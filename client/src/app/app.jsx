@@ -11,19 +11,29 @@ import { GameView } from './gameView';
 import { PrivateRoute } from './PrivateRoute';
 
 class App extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            user: {}
+            user: {},
+            selectedGameId: ''
         };
+        this.handleGameSelect = this.handleGameSelect.bind(this);
     }
+
     componentDidMount() {
         axios.get('/user')
             .then(({ data }) => {
-                console.log('Received data: ', data);
+                console.log('Received user data: ', data);
                 this.setState({ user: data });
-            })
+            });
     }
+
+    handleGameSelect(e) {
+        console.log('selected a game id: ', e.target.value);
+        this.setState({ selectedGameId: e.target.value });
+    }
+
     render() { return (
         <div id="routes-view">
             <Route render={({ location }) => 
@@ -34,8 +44,22 @@ class App extends React.Component {
                 this.state.user.name 
                     ? <Redirect to="/home" /> : <Login />
             }/>
-            <PrivateRoute exact path="/home" user={this.state.user} component={Home} />
-            <PrivateRoute exact path="/game" user={this.state.user} component={GameView} />
+            <PrivateRoute exact path="/home"
+                customProps={({
+                    user: this.state.user,
+                    selectedGameId: this.state.selectedGameId,
+                    handleGameSelect: this.handleGameSelect
+                })}
+                component={Home} 
+            />
+            <PrivateRoute exact path="/game" 
+                customProps={({
+                    user: this.state.user,
+                    selectedGameId: this.state.selectedGameId,
+                    handleGameSelect: this.handleGameSelect
+                })}
+                component={GameView} 
+            />
         </div>
     )}    
 }

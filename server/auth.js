@@ -4,8 +4,6 @@ const database = require('../db/index.js');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const whiteList = require('./whiteList.js');
 
-console.log('whiteList is: ', whiteList);
-
 const configAuth = function(app, passport) {
 
   // these two are needed for sessions (using default storage)
@@ -38,7 +36,7 @@ const configAuth = function(app, passport) {
   */
   function verifyCallback(accessToken, refreshToken, profile, done) {
     // check that user is pre-approved (in our whitelist)
-      console.log(profile.id);
+      console.log('profile.id: ', profile.id);
     if (!whiteList[profile.id]) { 
       console.log('User not on whitelist!')
       return done(null, false); 

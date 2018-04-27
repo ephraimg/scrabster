@@ -1,8 +1,4 @@
 
-export const crossesCenter = function(play) {
-    return play.placements.includes(play.board.getSquare(7, 7));
-}
-
 const isRowAligned = function(play) {
     const playSquares = play.squares;
     for (let i = 1; i < playSquares.length; i++) {
@@ -19,9 +15,11 @@ const isColAligned = function(play) {
     return true;    
 }
 
-export const formsLine = function(play) {
-    return isRowAligned(play) || isColAligned(play);
-}
+export const formsLine = play => 
+    isRowAligned(play) || isColAligned(play);
+
+export const crossesCenter = play =>
+    play.placements.includes(play.board.getSquare(7, 7));
 
 export const isContiguous = function(play) {
     const sqs = play.squares;
@@ -103,7 +101,6 @@ const getAdjWords = function(placements, board, orient) {
             words.push(getAllInCol(p, board));
         });   
     }
-    // console.log('Raw words: ', words);
     return words.filter(w => w.length > 1);
 };
 

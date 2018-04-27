@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { UITile } from './tile';
 
@@ -15,10 +14,9 @@ const logoTiles = [
     { letter: 'R', points: 1 }
 ]
 
-export const Logo = props => (
+export const Logo = props =>
     <div className="logo ctr-horiz">
-        {logoTiles.map(logoTile => (
-            <UITile inLogo="true" tile={logoTile}/>
-        ))}
-    </div>
-);
+        { logoTiles.map(logoTile =>
+            <UITile inLogo="true" tile={logoTile} />
+        )}
+    </div>;

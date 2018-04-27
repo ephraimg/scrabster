@@ -1,24 +1,39 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const cap = function(str) {
-    return str[0].toUpperCase() + str.slice(1);
-};
+const cap = str => str[0].toUpperCase() + str.slice(1);
 
-const getName = function(props) {
-    if (props.user.name.givenName) {
-        return cap(props.user.name.givenName);
-    } else {
-        return cap(props.user.displayName.split(' ')[0]);
+const getName = props => props.user.name.givenName
+    ? cap(props.user.name.givenName)
+    : cap(props.user.displayName.split(' ')[0]);
+
+export class Home extends React.Component {
+
+    constructor(props) {
+        console.log('Home props, ', props);
+        super(props);
+        this.state = { gameIds: [] }
     }
+
+    componentDidMount() {
+
+    }
+
+    render() { return (
+        <div>
+            <p> Welcome to Scrabster{props.user ? `, ${getName(props)}!` : '!'} </p>
+            <p> Select a game </p>
+            <select value={props.selectedGameId} onChange={props.handleGameSelect}>
+                <option value=""> New game </option>
+                <option value="123456"> 123456 </option>
+            </select>
+            <button>
+                <Link to="/game"> Go! </Link>
+            </button>
+        </div>);  
+    }
+
 }
 
-export const Home = props => (
-    <div>
-        <p>Welcome to Scrabster{props.user ? `, ${getName(props)}!` : '!'}</p>
-        <ul>
-          <li> <Link to="/game">Go to game</Link> </li>
-        </ul>
-    </div>
-)
