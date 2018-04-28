@@ -23,7 +23,7 @@ const getUsers = (googleId, callback) => {
 };
 
 const saveUser = (user, callback) => {
-  console.log('saveUser. user: ', user);
+  // console.log('saveUser. user: ', user);
   // Note: Without {$set: {}}, whole document gets overwritten
   db.collection('users').update({id: user.id}, {$set: user}, {upsert: true},
     (err, result) => callback(err, user)
