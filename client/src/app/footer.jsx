@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { UIRack } from './rack';
+import { Rack } from '../gameLogic/rack';
 
 export const Footer = props => {
 
@@ -32,7 +33,7 @@ export const Footer = props => {
                     Submit Play
                 </button>
             </div>);
-    } else {
+    } else if (props.user.id === props.game.otherPlayer.id) {
         userRack = props.game.otherPlayer.rack;
         buttonRow = (
             <div className="ctr-horiz">
@@ -41,6 +42,14 @@ export const Footer = props => {
                 </button>
                 <span style={{"margin-left": "1.5em", "color": "white", "font-size": "1rem"}}>
                     Waiting for your turn...
+                </span>
+            </div>);
+    } else {
+        userRack = new Rack([]);
+        buttonRow = (
+            <div className="ctr-horiz">
+                <span style={{"margin-left": "1.5em", "color": "white", "font-size": "1rem"}}>
+                    You are not a player in this game...
                 </span>
             </div>);
     }

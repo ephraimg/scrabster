@@ -23,11 +23,6 @@ export class Home extends React.Component {
         return this.props.user.getName.call(userObj);
     }
 
-    getOtherName(game) {
-        return this.props.user.id === game.player1.id
-            ? this.getObjName(game.player2) : this.getObjName(game.player1);
-    }
-
     cleanNames(users) {
         // alphabetize users by name
         users.sort((a, b) => this.getObjName(a) < this.getObjName(b));
@@ -41,7 +36,7 @@ export class Home extends React.Component {
                 const gameOptions = [<option value=""> New game </option>]
                     .concat(data.reverse().map(game =>
                         <option value={game.id}> 
-                            You vs. {this.getOtherName(game)}, 
+                            {this.getObjName(game.player1)} vs. {this.getObjName(game.player2)}, 
                             started {this.dateFromObjectId(game._id).toLocaleString("en-us")} 
                         </option>));
                 this.setState({ games: data, gameOptions });
@@ -61,21 +56,31 @@ export class Home extends React.Component {
     }
 
     render() { return (
-        <div className="ctr-horiz" style={{marginTop: "4em"}}>
+        <div className="ctr-horiz">
             <h1> Welcome to Scrabster{this.props.user ? `, ${this.props.user.getName()}!` : '!'} </h1>
-            <br/>
-            <p> Select a previous game to resume </p>
-            <select value={this.props.selectedGameId} onChange={this.props.handleGameSelect}>
-                {this.state.gameOptions}
-            </select>
-            <br/><br/>
-            <p> Or select an opponent for a new game </p>
-            <select value={this.props.selectedOpponentId} onChange={this.props.handleOpponentSelect}>
-                {this.state.opponentOptions}
-            </select>
-            <br/><br/>
-            <Link to="/game"> <button>Go!</button></Link>
-            
+            <div className="game-selection">
+                <p> Select a previous game to resume: </p>
+                <select value={this.props.selectedGameId} onChange={this.props.handleGameSelect}>
+                    {this.state.gameOptions}
+                </select>
+                <p> Or select an opponent for a new game: </p>
+                <select value={this.props.selectedOpponentId} onChange={this.props.handleOpponentSelect}>
+                    {this.state.opponentOptions}
+                </select>
+                <Link to="/game"> <button>Go!</button></Link>    
+            </div>
+            <hr/>
+            <div className="instructions">
+                <h2> Instructions </h2>
+                <ul>
+                    <li>To appear in the opponent menu, users must have logged in at least once. 
+                        In order to log in, users must contact the admin for pre-approval.</li>
+                    <li>To place a tile, click to select it and then select a square.
+                        You may remove a selected tile from the board by clicking next to your other tiles.</li>
+                    <li>Fake words are not automatically blocked.</li>
+                    <li>An option to challenge words is coming soon!</li>
+                </ul>
+            </div>
         </div>);  
     }
 

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import './../styles/app.css'; // to let webpack plugin find styles
 import { Player } from '../gameLogic/Player';
 import { Login } from './login';
 import { Home } from './home';

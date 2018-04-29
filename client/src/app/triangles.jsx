@@ -1,15 +1,10 @@
 
 import React from 'react';
 
-export const TripleTriangle = props =>
-    <div className={'triple-triangle tris-' + props.side}>
-        <div className={'tri-' + props.bonusClass.trim() + ' triangle'}></div>
-        <div className={'tri-' + props.bonusClass.trim() + ' triangle'}></div>
-        <div className={'tri-' + props.bonusClass.trim() + ' triangle'}></div>
-    </div>;
+const opps = { l: 'lr', r: 'lr', t: 'tb', b: 'tb'}
 
-export const DoubleTriangle = props =>
-    <div className={'double-triangle tris-' + props.side}>
-        <div className={'tri-' + props.bonusClass.trim() + ' triangle'}></div>
-        <div className={'tri-' + props.bonusClass.trim() + ' triangle'}></div>
-    </div>;
+export const TriangleSet = props =>
+    <div className={`tris tris-${opps[props.side]} tris-${props.side}`}>
+        { Array(+props.count).fill(0).map(el =>
+            <div className={`triangle tri-${props.side} ${props.bonusClass}`}/>) }
+    </div>

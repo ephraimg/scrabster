@@ -60,6 +60,11 @@ app.get('/signout', function (req, res) {
   // });
 });
 
+// catch-all route to deal with direct client-side urls
+app.get('/*', function(req, res) {
+  res.redirect('/');
+})
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}...`);
 });

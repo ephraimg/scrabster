@@ -134,7 +134,7 @@ export class GameView extends React.Component {
     render() { 
         // console.log('this.state.game: ', this.state.game);
         return this.state.game === null
-            ? <h1>Please wait...</h1> 
+            ? <h1 className="ctr-horiz">Please wait a moment...</h1> 
             : <div>
                 {
                 // <div onClick={()=>console.log(this.state.game.playHistory)}>Log playHistory</div>
