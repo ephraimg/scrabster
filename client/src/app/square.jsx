@@ -34,7 +34,7 @@ export class UISquare extends React.Component {
         }
         return (         
             <div className={'ui-square noselect ' + bonusClass}
-                onClick={e => this.props.selectSquareOrRack(this.props.square)}>
+                onClick={e => this.props.selectSquareOrRack(this.props.square, e)}>
                 { ['l', 'r', 't', 'b'].map(side =>
                     <TriangleSet side={side}
                         bonusClass={bonusClass}

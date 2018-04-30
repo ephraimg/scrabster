@@ -57,14 +57,21 @@ export class GameView extends React.Component {
         if (this.props.user.id !== this.state.game.currentPlayer.id) {
             return false;
         }
-        if (!this.state.selectedTile || this.state.selectedTile.id !== tile.id) {
+        if (!this.state.selectedTile) {
             this.setState({selectedTile: tile});
-        } else {
+        } else if (this.state.selectedTile.id === tile.id) {
             this.setState({selectedTile: null});
+        } else {
+            if (this.state.game.currentPlayer.rack.has(tile) &&
+                this.state.game.currentPlayer.rack.has(this.state.selectedTile)) {
+                this.state.game.currentPlayer.rack.swap(tile, this.state.selectedTile);
+                const newGame = cloneDeep(this.state.game);
+                this.setState({game: newGame, selectedTile: null});
+            }
         }
     }
 
-    selectSquareOrRack(square) {
+    selectSquareOrRack(square, e) {
         if (this.props.user.id !== this.state.game.currentPlayer.id) {
             return false;
         }
@@ -75,7 +82,7 @@ export class GameView extends React.Component {
         if (selected && (rackTiles.includes(selected) || isPlaced(selected))) {
             const newGame = cloneDeep(this.state.game);
             const oldSq = placements.filter(p => p.tile && p.tile.id === selected.id)[0];
-            if (square.row !== undefined) { // check if it's a square
+            if (square && square.row !== undefined) { // check if it's a square
                 const success = newGame.currentPlay.placeTile(selected, square.row, square.col);
                 if (success && isPlaced(selected)) {
                     newGame.clearExchange();

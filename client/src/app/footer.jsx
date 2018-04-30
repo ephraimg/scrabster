@@ -57,7 +57,7 @@ export const Footer = props => {
     // combine above results with usual bottom info bar
     return (
         <div>
-            <div className="footer" onClick={props.selectSquareOrRack}>
+            <div className="footer" onClick={e => props.selectSquareOrRack(null, e)}>
                 <UIRack rack={userRack}
                     selectTile={props.selectTile}
                     selectedTile={props.selectedTile}>

@@ -17,6 +17,13 @@ export class Rack {
         }
     }
 
+    swap(tile1, tile2) {
+        const tile1Idx = this.tiles.indexOf(tile1);
+        const tile2Idx = this.tiles.indexOf(tile2);
+        this.tiles[tile1Idx] = tile2;
+        this.tiles[tile2Idx] = tile1;
+    }
+
     remove(tile) {
         this.tiles = this.tiles.filter(el => el.id !== tile.id);
         return this.tiles;
@@ -25,6 +32,14 @@ export class Rack {
     add(tile) {
         this.tiles.push(tile);
         return this.tiles;
+    }
+
+    has(tile) { 
+        return this.tiles.includes(tile);
+    }
+
+    idx(tile) {
+        return this.tiles.indexOf(tile);
     }
 
     get count() {

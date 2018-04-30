@@ -46,7 +46,7 @@ export class Home extends React.Component {
                 const opponentOptions = [<option value={this.props.user.id}>{this.props.user.getName()}</option>]
                     .concat(this.cleanNames(data).map(opponent =>
                         <option value={opponent.id}> 
-                            {opponent.displayName} 
+                            {this.getObjName(opponent)} 
                         </option>));
                 this.setState({ 
                     opponents: data, 
