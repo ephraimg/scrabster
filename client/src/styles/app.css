@@ -58,7 +58,7 @@ html {
     text-decoration: none;
 }
 body {
-    background-color: lightgray;
+    background-color: LightGray;
     box-sizing: border-box;
     margin: 0;
 }
@@ -89,7 +89,7 @@ button {
     padding: 0.25rem;
     margin: .25rem;
     border-radius: 0.25rem;
-    border: 2px solid lightGray;
+    border: 2px solid LightGray;
 }
 a {
     color: black;
@@ -138,7 +138,7 @@ select {
 }
 .game-selection button {
     margin: 0.5rem 0;
-    border: 2px solid darkGray;
+    border: 2px solid DarkGray;
 }
 .footer {
     box-sizing: border-box;
@@ -149,7 +149,7 @@ select {
     height: 8.25rem;
     padding: 1rem;   
     background-color: gray;
-    border-top: 3px solid lightBlue;
+    border-top: 3px solid LightBlue;
 }
 .info-bar {
     box-sizing: border-box;
@@ -161,7 +161,7 @@ select {
     padding: 1rem;   
     color: white;
     background-color: gray;
-    border-top: 2px solid lightGray;
+    border-top: 2px solid LightGray;
 }
 .banner {
     position: relative;
@@ -171,7 +171,7 @@ select {
     min-width: 46rem;
     height: 6.9rem;
     background-color: gray;
-    border-bottom: 3px solid lightBlue;
+    border-bottom: 3px solid LightBlue;
 }
 .banner-info {
     font-size: 1rem;
@@ -246,8 +246,8 @@ select {
     border-color: #ff4d4d;
 }
 .dls {
-    background-color: lightBlue;
-    border-color: lightBlue;
+    background-color: LightBlue;
+    border-color: LightBlue;
 }
 .tls {
     background-color: #6495ED;
