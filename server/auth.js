@@ -35,21 +35,26 @@ const configAuth = function(app, passport) {
     * @param {done} function
   */
   function verifyCallback(accessToken, refreshToken, profile, done) {
-    console.log('In verifyCallback, profile.id is: ', profile.id);
     // check that user is pre-approved (in our whitelist)
     database.checkWhitelist(profile.id, function(err, user) {
         if (err) { console.log(err); }
         if (!user) { 
           console.log('User not in whitelist!');
-          // In Passport, this return indicates invalid credentials 
-          return done(null, false);
+          // saveNonUser method used to record login attempts
+          database.saveNonUser(profile, (err, result) => {
+            if (err) { return done(err, null); }
+            // In Passport, this return indicates invalid credentials 
+            else { return done(null, false); } 
+          });          
+          // return done(null, false);
+        } else {
+          console.log('User in whitelist!');
+          // save full profile (this might be user's first login)
+          database.saveUser(profile, (err, result) => {
+            if (err) { return done(err, null); }
+            else { return done(null, result); } 
+          });
         }
-        console.log('User in whitelist!');
-        // save full profile (this might be user's first login)
-        database.saveUser(profile, (err, result) => {
-          if (err) { return done(err, null); }
-          else { return done(null, result); } 
-        });
     });
   }
 
@@ -62,7 +67,7 @@ const configAuth = function(app, passport) {
   */
   app.get('/auth/google',
     passport.authenticate('google', {
-      scope: ['https://www.googleapis.com/auth/plus.login']
+      scope: ['profile', 'email']
     })
   );
   app.get('/auth/google/callback',
